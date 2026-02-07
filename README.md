@@ -64,11 +64,11 @@ File Management: Original files are moved to the System Recycle Bin only after s
 
 
 # 5. Troubleshooting
-'ffmpeg' is not recognized: Ensure FFmpeg is installed. If it is installed but not in your System PATH, you can specify the absolute path to ffmpeg.exe inside the crop_tool.py script in the cmd list.
+'ffmpeg' is not recognized: Ensure FFmpeg is installed. If it is installed but not in your System PATH, you can specify the absolute path to ffmpeg.exe inside the squash_tool.py script in the cmd list.
 
 Window closes immediately: This usually indicates an incorrect path in the CONDA_PATH or SCRIPT_PATH variables. Double-check that both files exist at the specified locations.
 
-File in use error: Ensure the video file you are trying to crop is not open in another application (e.g., VLC, Windows Media Player, or Premiere Pro) during processing.
+File in use error: Ensure the video file you are trying to compress is not open in another application (e.g., VLC, Windows Media Player, or Premiere Pro) during processing.
 
 Missing _h265.mp4 file: If the original file is gone but no new file appeared, check your disk space. FFmpeg will fail if there isn't enough room to write the new file, but the script is designed not to trash your original unless the squash is verified.
 ---
@@ -77,11 +77,6 @@ Missing _h265.mp4 file: If the original file is gone but no new file appeared, c
 
 
 # 6. FFMPEG Technical Specifications
-Video Encoding: Uses libx264 with a Constant Rate Factor (CRF) of 23.
-Speed Preset: Set to slow for optimized compression efficiency.
-Audio Handling: Audio is passed through using -c:a copy to ensure no loss in quality or synchronization.
-ROI Interface: Handled via cv2.selectROI.
-
 Video Encoding: Uses HEVC via libx265 encoder with Constant Rate Factor (CRF) of 26.  Target = 10:1 compression
 Speed Preset: Set to slow for optimized compression efficiency and redundant data reduction.
 Audio Handling: Audio is passed through using -c:a copy to ensure no loss in quality or synchronization.
