@@ -26,7 +26,7 @@ conda create -n squashvid -c conda-forge python=3.10 ffmpeg send2trash pywin32 -
 
 
 # 3. Local Configuration
-You must update the paths in SquashDrop.bat to match your local installation.
+You must update the paths in SquashVid.bat to match your local installation.
 
 ### To find CONDA_PATH: Open PowerShell and run:
 
