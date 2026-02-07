@@ -78,6 +78,9 @@ Missing _h265.mp4 file: If the original file is gone but no new file appeared, c
 
 
 # 6. FFMPEG Technical Specifications
+
 Video Encoding: Uses HEVC via libx265 encoder with Constant Rate Factor (CRF) of 26.  Target = 10:1 compression
+
 Speed Preset: Set to slow for optimized compression efficiency and redundant data reduction.
+
 Audio Handling: Audio is passed through using -c:a copy to ensure no loss in quality or synchronization.
