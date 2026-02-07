@@ -37,7 +37,7 @@ PowerShell:
 
 ### To find SCRIPT_PATH: 
 
-Folder with this cloned this repository + \crop_tool.py
+Folder with this cloned this repository + \squash_tool.py
 
 ## Update these variables in SquashVid.bat:
 ```
@@ -51,16 +51,12 @@ set "SCRIPT_PATH=C:\YOUR_PATH_HERE\squash_tool.py"
 
 
 # 4. Usage Instructions
-Drag and Drop: Drag the target video file onto the CropDrop.bat icon.
+Drag and Drop: Drag the target video file(s) onto the SquashVid.bat icon.
 Create links/shortcuts to the .bat file to use this function in other directories or from the desktop.
 
-An interactive window will open displaying the first frame of the video.
-Left-click and drag the mouse to draw a rectangle over the desired area.
-Confirm: Press ENTER or SPACE to confirm.
+Output: The script will process the video. The result is saved in the source directory with the suffix _h265.mp4.
 
-Output: The script will process the video. The result is saved in the source directory with the suffix _cropped.mp4.
-
-
+File Management: Original files are moved to the System Recycle Bin only after successful verification of the output.
 
 ---
 
@@ -74,10 +70,7 @@ Window closes immediately: This usually indicates an incorrect path in the CONDA
 
 File in use error: Ensure the video file you are trying to crop is not open in another application (e.g., VLC, Windows Media Player, or Premiere Pro) during processing.
 
-OpenCV Window doesn't appear: Verify that the cropvid environment was created successfully and that opencv-python is installed within it.
-
-
-
+Missing _h265.mp4 file: If the original file is gone but no new file appeared, check your disk space. FFmpeg will fail if there isn't enough room to write the new file, but the script is designed not to trash your original unless the squash is verified.
 ---
 
 
@@ -88,3 +81,7 @@ Video Encoding: Uses libx264 with a Constant Rate Factor (CRF) of 23.
 Speed Preset: Set to slow for optimized compression efficiency.
 Audio Handling: Audio is passed through using -c:a copy to ensure no loss in quality or synchronization.
 ROI Interface: Handled via cv2.selectROI.
+
+Video Encoding: Uses HEVC via libx265 encoder with Constant Rate Factor (CRF) of 26.  Target = 10:1 compression
+Speed Preset: Set to slow for optimized compression efficiency and redundant data reduction.
+Audio Handling: Audio is passed through using -c:a copy to ensure no loss in quality or synchronization.
