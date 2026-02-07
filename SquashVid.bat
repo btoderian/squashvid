@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-:: 1. Define the absolute path to your conda batch file and python script
+:: 1. Define paths
 set "CONDA_PATH=C:\Users\JehutyAdmin\anaconda3\condabin\conda.bat"
 set "SCRIPT_PATH=D:\SquashVid\squash_tool.py"
 
@@ -12,17 +12,18 @@ if "%~1"=="" (
     exit /b
 )
 
-:: 3. Identify the Output Path for the Readout
+:: 3. Define output path for the final message
 set "OUT_FILE=%~dpn1_h265.mp4"
 
-:: 4. Execute in the 'squashvid' environment
+:: 4. Execute
 echo [START] Processing: %~nx1
 :: Using 'call' with fully quoted arguments to handle spaces in file paths
-call "%CONDA_PATH%" run -n squashvid --no-capture-output python "%SCRIPT_PATH%" "%~1"
+call "%CONDA_PATH%" run -n squashvid --no-capture-output python "%SCRIPT_PATH%" %*
 
-:: 5. Readout
+:: 5. Cleanup and Readout
 echo.
-echo %OUT_FILE%
+echo Batch complete.
+echo Last processed output location: %OUT_FILE%
 echo.
 
 endlocal
