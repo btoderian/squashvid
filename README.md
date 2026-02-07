@@ -71,6 +71,7 @@ Window closes immediately: This usually indicates an incorrect path in the CONDA
 File in use error: Ensure the video file you are trying to compress is not open in another application (e.g., VLC, Windows Media Player, or Premiere Pro) during processing.
 
 Missing _h265.mp4 file: If the original file is gone but no new file appeared, check your disk space. FFmpeg will fail if there isn't enough room to write the new file, but the script is designed not to trash your original unless the squash is verified.
+
 ---
 
 
