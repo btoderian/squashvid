@@ -4,24 +4,28 @@ import subprocess
 from send2trash import send2trash
 
 # CONFIGURATION
-# CRF 26 targets that ~10:1 ratio for high-bitrate clips
-TARGET_CRF = "26" 
+# For NVENC, -cq 28-30 is roughly equivalent to CRF 26.
+# Lower = Higher Quality / Larger File.
+TARGET_CQ = "28" 
 
 def squash_video(input_path):
     # Create output filename
     output_path = os.path.splitext(input_path)[0] + "_h265.mp4"
     file_size_mb = os.path.getsize(input_path) / (1024 * 1024)
     
-    print(f"\n>>> Squashing: {os.path.basename(input_path)} ({file_size_mb:.1f}MB)")
+    print(f"\n>>> Squashing (GPU): {os.path.basename(input_path)} ({file_size_mb:.1f}MB)")
 
-    # FFmpeg Command
-    # libx265 + slow preset targets the 100MB/1GB goal
+    # FFmpeg Command for NVENC
     cmd = [
         "ffmpeg", "-i", input_path,
-        "-c:v", "libx265",
-        "-crf", TARGET_CRF,
-        "-preset", "slow",
-        "-c:a", "copy",
+        "-c:v", "hevc_nvenc",        # NVIDIA H.265 Encoder
+        "-preset", "p6",             # p1 (fastest) to p7 (slowest). p6 is the sweet spot for quality.
+        "-rc", "vbr",                # Variable Bitrate
+        "-cq", TARGET_CQ,            # Constant Quality target
+        "-b:v", "0",                 # Setting bitrate to 0 allows CQ to control the quality
+        "-profile:v", "main",        # Standard H.265 profile
+        "-spatial-aq", "1",          # Spatial Adaptive Quantization (improves detail)
+        "-c:a", "copy",              # Don't waste time re-encoding audio
         "-y", output_path
     ]
 
@@ -34,7 +38,7 @@ def squash_video(input_path):
             print(f"--- Success! New size: {new_size_mb:.1f}MB")
             
             print(f"--- Moving original to Recycle Bin...")
-            send2trash(input_path)
+            send2trash(os.path.abspath(input_path))
         else:
             print("--- Error: Output file was not created correctly.")
             
